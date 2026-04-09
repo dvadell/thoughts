@@ -15,7 +15,7 @@ pub enum Command {
     /// Save a new thought
     Save {
         /// The thought text
-        text: String,
+        text: Option<String>,
 
         /// Optional tags (comma-separated)
         #[arg(short, long)]

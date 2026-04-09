@@ -25,7 +25,7 @@ fn main() -> Result<()> {
     match cli.command {
         Command::Save { text, tags } => {
             let embedder = Embedder::new()?;
-            commands::save::run(&store, &embedder, &text, tags.as_deref())?;
+            commands::save::run(&store, &embedder, text.as_deref(), tags.as_deref())?;
         }
         Command::Search { query, limit } => {
             let embedder = Embedder::new()?;
