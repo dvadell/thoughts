@@ -12,8 +12,7 @@ use embeddings::Embedder;
 use std::path::PathBuf;
 
 fn data_path() -> PathBuf {
-    let base = dirs::data_local_dir()
-        .unwrap_or_else(|| PathBuf::from("."));
+    let base = dirs::data_local_dir().unwrap_or_else(|| PathBuf::from("."));
     let dir = base.join("thoughts");
     std::fs::create_dir_all(&dir).unwrap();
     dir.join("db.sqlite")

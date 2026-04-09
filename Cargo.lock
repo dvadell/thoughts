@@ -2660,6 +2660,7 @@ dependencies = [
  "fastembed",
  "rusqlite",
  "sqlite-vec",
+ "tempfile",
  "zerocopy 0.7.35",
 ]
 

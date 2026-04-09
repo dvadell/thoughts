@@ -26,3 +26,14 @@ anyhow = "1"
 chrono = { version = "0.4", features = ["serde"] }
 
 dirs = "5"
+tempfile = "3"
+
+[lib]
+name = "thoughts"
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3
+lto = true          # link-time optimization
+codegen-units = 1   # slower compile, faster binary
+strip = true        # strip debug symbols

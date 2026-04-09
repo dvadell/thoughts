@@ -10,8 +10,15 @@ pub fn run(store: &Store, limit: usize) -> Result<()> {
     }
 
     for t in thoughts {
-        println!("\n[#{}] {} {}", t.id, t.created_at,
-            t.tags.as_deref().map(|tg| format!("[{}]", tg)).unwrap_or_default());
+        println!(
+            "\n[#{}] {} {}",
+            t.id,
+            t.created_at,
+            t.tags
+                .as_deref()
+                .map(|tg| format!("[{}]", tg))
+                .unwrap_or_default()
+        );
         println!("  {}", t.content);
     }
 

@@ -4,7 +4,7 @@ use zerocopy::AsBytes;
 
 pub struct SearchResult {
     pub thought: Thought,
-    pub score: f64,        // combined RRF score
+    pub score: f64, // combined RRF score
 }
 
 impl Store {
@@ -16,14 +16,15 @@ impl Store {
              FROM thoughts_vec
              WHERE embedding MATCH ?1
              ORDER BY distance
-             LIMIT ?2"
+             LIMIT ?2",
         )?;
 
-        let results = stmt.query_map(
-            rusqlite::params![bytes, limit * 2],  // fetch extra for fusion
-            |row| Ok((row.get::<_, i64>(0)?, row.get::<_, f64>(1)?)),
-        )?
-        .collect::<rusqlite::Result<Vec<_>>>()?;
+        let results = stmt
+            .query_map(
+                rusqlite::params![bytes, limit * 2], // fetch extra for fusion
+                |row| Ok((row.get::<_, i64>(0)?, row.get::<_, f64>(1)?)),
+            )?
+            .collect::<rusqlite::Result<Vec<_>>>()?;
 
         Ok(results)
     }
@@ -34,19 +35,24 @@ impl Store {
              FROM thoughts_fts
              WHERE thoughts_fts MATCH ?1
              ORDER BY rank
-             LIMIT ?2"
+             LIMIT ?2",
         )?;
 
-        let results = stmt.query_map(
-            rusqlite::params![query, limit * 2],
-            |row| Ok((row.get::<_, i64>(0)?, row.get::<_, f64>(1)?)),
-        )?
-        .collect::<rusqlite::Result<Vec<_>>>()?;
+        let results = stmt
+            .query_map(rusqlite::params![query, limit * 2], |row| {
+                Ok((row.get::<_, i64>(0)?, row.get::<_, f64>(1)?))
+            })?
+            .collect::<rusqlite::Result<Vec<_>>>()?;
 
         Ok(results)
     }
 
-    pub fn search_hybrid(&self, embedding: &[f32], query: &str, limit: usize) -> Result<Vec<SearchResult>> {
+    pub fn search_hybrid(
+        &self,
+        embedding: &[f32],
+        query: &str,
+        limit: usize,
+    ) -> Result<Vec<SearchResult>> {
         let vec_results = self.search_vector(embedding, limit)?;
         let fts_results = self.search_fts(query, limit)?;
 
@@ -80,12 +86,14 @@ impl Store {
         Ok(self.conn.query_row(
             "SELECT id, content, tags, created_at FROM thoughts WHERE id = ?1",
             [id],
-            |row| Ok(Thought {
-                id: row.get(0)?,
-                content: row.get(1)?,
-                tags: row.get(2)?,
-                created_at: row.get(3)?,
-            }),
+            |row| {
+                Ok(Thought {
+                    id: row.get(0)?,
+                    content: row.get(1)?,
+                    tags: row.get(2)?,
+                    created_at: row.get(3)?,
+                })
+            },
         )?)
     }
 }
