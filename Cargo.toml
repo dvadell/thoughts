@@ -1,0 +1,28 @@
+[package]
+name = "thoughts"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# CLI argument parsing
+clap = { version = "4", features = ["derive"] }
+
+# SQLite
+rusqlite = { version = "0.31", features = ["bundled"] }
+
+# sqlite-vec (the vector search extension)
+sqlite-vec = "0.1"
+
+# Embeddings (local, no API key needed)
+fastembed = "4"
+
+# Serialization (for storing vectors as bytes)
+zerocopy = { version = "0.7", features = ["derive"] }
+
+# Error handling (idiomatic Rust)
+anyhow = "1"
+
+# Timestamp support
+chrono = { version = "0.4", features = ["serde"] }
+
+dirs = "5"
